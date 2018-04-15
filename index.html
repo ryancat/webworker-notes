@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html>
+  <header>
+
+  </header>
+  <body>
+    <h1>Welcome to webworkder demo</h1>
+
+    <script>
+      let worker = new Worker('worker.js')
+      worker.postMessage('done')
+
+      worker.addEventListener('message', (msg) => {
+        console.log(msg.data)
+      })
+    </script>
+  </body>
+</html>

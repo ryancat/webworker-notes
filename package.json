@@ -1,0 +1,28 @@
+{
+  "name": "webworker-notes",
+  "version": "0.1.0",
+  "description": "Notes from webworker course with Plurisight",
+  "main": "index.html",
+  "dependencies": {},
+  "devDependencies": {
+    "http-server": "^0.11.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryancat/webworker-notes.git"
+  },
+  "keywords": [
+    "webworker",
+    "notes",
+    "pluraisight"
+  ],
+  "author": "Ryan Chen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryancat/webworker-notes/issues"
+  },
+  "homepage": "https://github.com/ryancat/webworker-notes#readme"
+}
