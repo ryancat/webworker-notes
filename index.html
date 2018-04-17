@@ -7,13 +7,62 @@
   <body>
     <h1>Welcome to webworkder demo</h1>
 
-    <script>
-      let worker = new Worker('worker.js')
-      worker.postMessage('done')
+    <input id="search-word" />
+    <button id="search-word-confirm"></button>
+    <div id="result"></div>
 
-      worker.addEventListener('message', (msg) => {
-        console.log(msg.data)
+    <script>
+      // let worker = new Worker('worker.js')
+      // worker.postMessage('done')
+
+      // worker.addEventListener('message', (msg) => {
+      //   console.log(msg.data)
+      // })
+
+      let searchConfirmBtn = document.getElementById('search-word-confirm'),
+          searchInput = document.getElementById('search-word'),
+          resultArea = document.getElementById('result')
+      
+      let searchWorkers = {}
+
+      searchConfirmBtn.addEventListener('click', () => {
+        let searchStrArr = searchInput.value.split(''),
+            distinctStr = [],
+            results = {}
+
+        searchStrArr.forEach((char, index) => {
+          if (searchStrArr.indexOf(char) === index) {
+            // First time
+            distinctStr.push(char)
+          }
+        })
+
+        for (let char of distinctStr) {
+          const hashKey = `${char}@${distinctStr.join('')}`
+          if (searchWorkers[hashKey]) {
+            continue
+          }
+
+          let worker = new Worker('getWords.js')
+            
+          worker.postMessage({
+            leadChar: char,
+            allChars: distinctStr
+          })
+
+          worker.addEventListener('message', (msg) => {
+            console.log('received', msg.data)
+            results[char] = msg.data
+            // Show results
+            resultArea.innerHTML = JSON.stringify(results)
+          })
+
+          searchWorkers[hashKey] = worker
+        }
+
+        
       })
+
     </script>
   </body>
 </html>
