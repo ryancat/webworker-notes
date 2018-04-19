@@ -1,10 +1,13 @@
 this.addEventListener('message', (msg) => {
-  console.log('Message received', msg.data)
+  console.log('Message received:', msg.data)
 })
 
+this.addEventListener('connect', (msg) => {
+  let port = msg.ports[0]
+  port.start()
+  port.addEventListener('message', (msg) => {
+    console.log('received', msg)
+  })
 
-let i = 0
-setInterval(() => {
-  this.postMessage(`counter: ${i}`)
-  i++
-}, 1000)
+  port.postMessage('from worker')
+})
