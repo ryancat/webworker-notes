@@ -12,14 +12,20 @@
     <div id="result"></div>
 
     <script>
-      let worker = new SharedWorker('./worker.js')
-      worker.port.postMessage('done')
+      let worker = new Worker('./worker.js')
       
-      worker.port.start()
-      worker.port.addEventListener('message', (msg) => {
-        console.log('from host:', msg.data)
+      worker.addEventListener('message', (e) => {
+        console.log(e.data)
       })
 
+      worker.postMessage({
+        type: 'add', 
+        args: [1, 1]
+      })
+      worker.postMessage({
+        type: 'subtract', 
+        args: [1, 1]
+      })
     </script>
   </body>
 </html>

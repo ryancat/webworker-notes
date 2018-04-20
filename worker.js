@@ -1,23 +1,23 @@
-let ports = [],
-    count = 0
+function add (a, b) {
+  return a + b
+}
 
-this.addEventListener('message', (msg) => {
-  console.log('Message received:', msg.data)
+function subtract (a, b) {
+  return a - b
+}
+
+function post (fn, args) {
+  this.postMessage(fn(...args))
+}
+
+// main reducer
+this.addEventListener('message', (e) => {
+  switch (e.data.type) {
+    case 'add': 
+      post(add, e.data.args)
+      break
+    case 'subtract':
+      post(subtract, e.data.args)
+      break
+  }
 })
-
-this.addEventListener('connect', (msg) => {
-  let port = msg.ports[0]
-  ports.push(port)
-
-  port.start()
-  port.addEventListener('message', (msg) => {
-    console.log('received', msg)
-  })
-})
-
-setInterval(() => {
-  count++
-  ports.forEach((p) => {
-    p.postMessage(`from worker: ${count}`)
-  })
-}, 500)
